@@ -24,7 +24,7 @@ const year = new Date().getFullYear();
     justify-content: space-between;
     gap: 1rem;
     padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
+    padding-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
     flex-wrap: wrap;
     font-size: 0.8rem;
     color: var(--ink-soft);
