@@ -30,11 +30,15 @@ const path = Astro.url.pathname;
 </header>
 
 <script is:inline>
-  // Aktive Kategorie in der horizontal scrollbaren Leiste sichtbar machen
+  // Aktive Kategorie in der horizontal scrollbaren Leiste sichtbar machen.
+  // Über getBoundingClientRect statt offsetLeft -> robust, kein Abschneiden.
   (function () {
     var nav = document.querySelector(".cat-nav");
     var on = nav && nav.querySelector("a.on");
-    if (nav && on) nav.scrollLeft = Math.max(0, on.offsetLeft - 16);
+    if (!nav || !on) return;
+    var delta =
+      on.getBoundingClientRect().left - nav.getBoundingClientRect().left - 16;
+    nav.scrollLeft += delta;
   })();
 </script>
 
