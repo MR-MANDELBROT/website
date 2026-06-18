@@ -52,6 +52,14 @@ a {
   padding: 0 clamp(1.25rem, 4vw, 3rem);
 }
 
+/* Visitenkarten-Seite: kein Seitenscrollen – Wischen bewegt nur die Karte */
+body.is-bare {
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 /* Focus visibility for keyboard users */
 :focus-visible {
   outline: 2px solid var(--ink);
