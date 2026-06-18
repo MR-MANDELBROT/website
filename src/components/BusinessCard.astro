@@ -158,7 +158,12 @@ const substack = "https://substack.com/@maxmarquart";
     min-height: 100dvh;
     display: grid;
     place-items: center;
-    padding: clamp(1.5rem, 5vw, 4rem);
+    /* Safe-Area-Insets verschieben den Zentrierungsanker in den sichtbaren
+       Bereich (unter Dynamic Island, über Home-Indicator / Safari-Leiste). */
+    padding:
+      calc(clamp(1.5rem, 5vw, 4rem) + env(safe-area-inset-top, 0px))
+      clamp(1.5rem, 5vw, 4rem)
+      calc(clamp(1.5rem, 5vw, 4rem) + env(safe-area-inset-bottom, 0px));
     perspective: 1300px;
     /* Wischen neigt die Karte, statt die Seite zu scrollen */
     touch-action: none;
@@ -183,7 +188,10 @@ const substack = "https://substack.com/@maxmarquart";
   /* Mobil: schmalerer Rand -> Karte größer und besser sichtbar */
   @media (max-width: 560px) {
     .scene {
-      padding: 1rem 0.85rem;
+      padding:
+        calc(1rem + env(safe-area-inset-top, 0px))
+        0.85rem
+        calc(1rem + env(safe-area-inset-bottom, 0px));
     }
   }
 

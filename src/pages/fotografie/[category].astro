@@ -265,8 +265,8 @@ for (let i = 0; i < items.length; i += 2) rows.push(items.slice(i, i + 2));
   }
   .lb-close {
     position: absolute;
-    top: clamp(0.5rem, 2vw, 1.25rem);
-    right: clamp(0.75rem, 3vw, 1.75rem);
+    top: calc(clamp(0.5rem, 2vw, 1.25rem) + env(safe-area-inset-top, 0px));
+    right: calc(clamp(0.75rem, 3vw, 1.75rem) + env(safe-area-inset-right, 0px));
     font-size: 2.2rem;
     line-height: 1;
   }
