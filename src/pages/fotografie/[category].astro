@@ -212,13 +212,15 @@ for (let i = 0; i < items.length; i += 2) rows.push(items.slice(i, i + 2));
     transform: scale(1.03);
   }
 
-  /* Mobil: gestapelt, ein Bild pro Reihe in natürlichem Format. */
+  /* Mobil: gestapelt, ein Bild pro Reihe in natürlichem Format.
+     flex zurücksetzen, sonst kollabieren die Zellen in Spaltenrichtung. */
   @media (max-width: 560px) {
     .row {
       flex-direction: column;
     }
-    .row.single .cell {
-      flex-basis: auto;
+    .row .cell {
+      flex: none;
+      width: 100%;
     }
   }
 
