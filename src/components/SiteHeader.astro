@@ -1,0 +1,85 @@
+---
+import { categories } from "../lib/gallery";
+
+interface Props {
+  active?: string;
+}
+const { active } = Astro.props;
+const path = Astro.url.pathname;
+---
+
+<header class="site-head">
+  <div class="wrap head-inner">
+    <a class="brand" href="/">Maximilian Marquart</a>
+    <nav class="cat-nav" aria-label="Kategorien">
+      <a href="/fotografie/" class:list={[{ on: path === "/fotografie/" }]}
+        >Alle</a
+      >
+      {
+        categories.map((c) => (
+          <a
+            href={`/fotografie/${c.slug}/`}
+            class:list={[{ on: active === c.slug }]}
+          >
+            {c.title}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-head {
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: saturate(180%) blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  .head-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .brand {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+
+  .cat-nav {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .cat-nav a {
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--ink-soft);
+    padding-bottom: 2px;
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .cat-nav a:hover {
+    color: var(--ink);
+  }
+
+  .cat-nav a.on {
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+  }
+</style>

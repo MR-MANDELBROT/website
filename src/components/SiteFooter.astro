@@ -1,0 +1,43 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="site-foot">
+  <div class="wrap foot-inner">
+    <span>© {year} Maximilian Marquart</span>
+    <nav class="foot-nav">
+      <a href="/">Start</a>
+      <a href="/fotografie/">Portfolio</a>
+      <a href="/impressum/">Impressum</a>
+    </nav>
+  </div>
+</footer>
+
+<style>
+  .site-foot {
+    border-top: 1px solid var(--line);
+    margin-top: 4rem;
+  }
+  .foot-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+  .foot-nav {
+    display: flex;
+    gap: 1.25rem;
+  }
+  .foot-nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+  }
+  .foot-nav a:hover {
+    color: var(--ink);
+  }
+</style>

@@ -1,0 +1,99 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+---
+
+<BaseLayout title="Impressum – Maximilian Marquart" description="Impressum">
+  <SiteHeader />
+
+  <main class="wrap legal">
+    <h1>Impressum</h1>
+
+    <h2>Angaben gemäß § 5 DDG</h2>
+    <p>
+      Maximilian Marquart<br />
+      Sollerbauerweg 3<br />
+      81241 München<br />
+      Deutschland
+    </p>
+
+    <h2>Kontakt</h2>
+    <p>
+      <!-- Per JS zusammengesetzt (Scraper-Schutz) -->
+      E-Mail:
+      <a
+        id="mail"
+        data-user="max"
+        data-domain="marquart.dev"
+        href="#"
+        rel="nofollow">max [at] marquart.dev</a
+      ><br />
+      Telefon: <span id="tel" data-tel="+49 172 6734572">auf Anfrage</span>
+    </p>
+
+    <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+    <p>
+      Maximilian Marquart<br />
+      Anschrift wie oben
+    </p>
+
+    <h2>Urheberrecht</h2>
+    <p>
+      Alle auf dieser Website gezeigten Fotografien sind urheberrechtlich
+      geschützt. Eine Nutzung, Vervielfältigung oder Verbreitung ohne
+      ausdrückliche Zustimmung ist nicht gestattet.
+    </p>
+
+    <h2>Haftung für Inhalte</h2>
+    <p>
+      Die Inhalte dieser Seiten wurden mit größter Sorgfalt erstellt. Für die
+      Richtigkeit, Vollständigkeit und Aktualität der Inhalte kann jedoch keine
+      Gewähr übernommen werden.
+    </p>
+  </main>
+
+  <SiteFooter />
+
+  <script is:inline>
+    (function () {
+      var m = document.getElementById("mail");
+      if (m) {
+        var a = m.dataset.user + "@" + m.dataset.domain;
+        m.href = "mailto:" + a;
+        m.textContent = a;
+      }
+      var t = document.getElementById("tel");
+      if (t) {
+        var n = t.dataset.tel;
+        t.innerHTML =
+          '<a href="tel:' + n.replace(/\s/g, "") + '">' + n + "</a>";
+      }
+    })();
+  </script>
+</BaseLayout>
+
+<style>
+  .legal {
+    max-width: 44rem;
+    padding-top: clamp(2.5rem, 6vw, 4rem);
+    padding-bottom: 2rem;
+  }
+  .legal h1 {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: clamp(1.8rem, 5vw, 2.4rem);
+    margin: 0 0 1.5rem;
+  }
+  .legal h2 {
+    font-size: 1rem;
+    margin: 2rem 0 0.4rem;
+  }
+  .legal p {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+  .legal a {
+    color: var(--ink);
+  }
+</style>

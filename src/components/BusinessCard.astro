@@ -1,0 +1,453 @@
+---
+// Realistischer 3D-Render einer gedruckten Visitenkarte mit Flip.
+// Neigt sich zum Cursor; Klick auf „Kontakt" dreht die Karte auf die
+// Rückseite mit E-Mail, LinkedIn, Instagram und Substack.
+
+const linkedin = "https://www.linkedin.com/in/maximilian-marquart-24b577251/";
+const instagram = "https://www.instagram.com/maximilian_marquart/";
+const substack = "https://substack.com/@maxmarquart";
+---
+
+<section class="scene" id="scene">
+  <div class="card" id="card">
+    <div class="flipper">
+      <!-- VORDERSEITE -->
+      <div class="face front">
+        <div class="layer grain" aria-hidden="true"></div>
+        <div class="layer env" aria-hidden="true"></div>
+
+        <div class="content">
+          <div class="top">
+            <h1 class="name foil">Maximilian<br />Marquart</h1>
+            <span class="rule" aria-hidden="true"></span>
+          </div>
+
+          <div class="bottom">
+            <button type="button" class="line foil js-flip" aria-label="Kontakt anzeigen">
+              Kontakt
+            </button>
+            <span class="bottom-right">
+              <a
+                class="line foil"
+                href="https://github.com/MR-MANDELBROT"
+                target="_blank"
+                rel="noopener">marquart.dev</a
+              >
+              <span class="line foil sep" aria-hidden="true">/</span>
+              <a class="line foil" href="/fotografie/">fotografie</a>
+            </span>
+          </div>
+        </div>
+
+        <div class="layer gloss" aria-hidden="true"></div>
+      </div>
+
+      <!-- RÜCKSEITE -->
+      <div class="face back">
+        <div class="layer grain" aria-hidden="true"></div>
+        <div class="layer env" aria-hidden="true"></div>
+
+        <div class="content">
+          <div class="top">
+            <p class="back-title foil">Kontakt</p>
+            <span class="rule" aria-hidden="true"></span>
+          </div>
+
+          <nav class="back-links">
+            <a
+              id="mailBack"
+              class="back-link foil"
+              data-user="max"
+              data-domain="marquart.dev"
+              href="#"
+              rel="nofollow">E-Mail</a
+            >
+            <a class="back-link foil" href={linkedin} target="_blank" rel="noopener">
+              LinkedIn
+            </a>
+            <a class="back-link foil" href={instagram} target="_blank" rel="noopener">
+              Instagram
+            </a>
+            <a class="back-link foil" href={substack} target="_blank" rel="noopener">
+              Substack
+            </a>
+          </nav>
+
+          <button type="button" class="back-return foil js-flip" aria-label="Zurück zur Vorderseite">
+            ← zurück
+          </button>
+        </div>
+
+        <div class="layer gloss" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    var scene = document.getElementById("scene");
+    var card = document.getElementById("card");
+
+    // E-Mail erst zur Laufzeit zusammensetzen (Scraper-Schutz)
+    var m = document.getElementById("mailBack");
+    if (m) {
+      var addr = m.dataset.user + "@" + m.dataset.domain;
+      m.href = "mailto:" + addr;
+    }
+
+    // Flip umschalten
+    var flips = document.querySelectorAll(".js-flip");
+    for (var i = 0; i < flips.length; i++) {
+      flips[i].addEventListener("click", function () {
+        card.classList.toggle("flipped");
+      });
+    }
+
+    var MAX = 11; // maximale Neigung in Grad
+    var reduce =
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    var frame = null;
+    function apply(x, y) {
+      // x,y normiert 0..1 relativ zur Karte
+      var rx = (y - 0.5) * 2 * MAX; // Cursor oben -> Oberkante nach vorn
+      var ry = (0.5 - x) * 2 * MAX; // Cursor links -> linke Kante nach vorn
+      card.style.setProperty("--rx", rx.toFixed(2) + "deg");
+      card.style.setProperty("--ry", ry.toFixed(2) + "deg");
+      // Glanzstreifen: verschiebt sich sichtbar über die Karte
+      card.style.setProperty("--bx", (50 + (x - 0.5) * 80).toFixed(1) + "%");
+      card.style.setProperty("--by", (50 + (y - 0.5) * 80).toFixed(1) + "%");
+      frame = null;
+    }
+
+    function onMove(e) {
+      if (reduce) return;
+      var r = card.getBoundingClientRect();
+      var x = (e.clientX - r.left) / r.width;
+      var y = (e.clientY - r.top) / r.height;
+      x = Math.min(1, Math.max(0, x));
+      y = Math.min(1, Math.max(0, y));
+      if (frame) cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(function () {
+        apply(x, y);
+      });
+    }
+
+    function reset() {
+      card.style.setProperty("--rx", "0deg");
+      card.style.setProperty("--ry", "0deg");
+      card.style.setProperty("--bx", "50%");
+      card.style.setProperty("--by", "44%");
+      card.classList.remove("active");
+    }
+
+    scene.addEventListener("pointermove", onMove);
+    scene.addEventListener("pointerenter", function () {
+      card.classList.add("active");
+    });
+    scene.addEventListener("pointerleave", reset);
+    reset();
+  })();
+</script>
+
+<style>
+  .scene {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    padding: clamp(1.5rem, 5vw, 4rem);
+    perspective: 1300px;
+    background:
+      radial-gradient(
+        130% 90% at 50% 8%,
+        #ffffff 0%,
+        var(--bg) 55%,
+        #ecebe6 100%
+      );
+  }
+
+  .card {
+    --rx: 0deg;
+    --ry: 0deg;
+    --bx: 50%;
+    --by: 44%;
+
+    position: relative;
+    width: min(540px, 92vw);
+    aspect-ratio: 85 / 55; /* echte Visitenkarten-Proportion */
+    border-radius: 3px; /* nahezu eckig */
+    transform-style: preserve-3d;
+    transform: rotateX(var(--rx)) rotateY(var(--ry));
+    transition:
+      transform 0.32s cubic-bezier(0.22, 0.61, 0.36, 1),
+      box-shadow 0.32s ease;
+    will-change: transform;
+  }
+
+  /* Flip-Container */
+  .flipper {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .card.flipped .flipper {
+    transform: rotateY(180deg);
+  }
+
+  /* Karten-Seiten */
+  .face {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+
+    /* Satin-schwarzer Karton */
+    background:
+      radial-gradient(
+        125% 125% at 28% 18%,
+        #2a2a30 0%,
+        #161619 42%,
+        #0b0b0d 100%
+      );
+    /* Kante + dünner Lichtsaum + getragener Schlagschatten.
+       Schatten sitzt auf der Seite -> dreht beim Flip mit (kein Geist). */
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.07),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.6),
+      0 2px 6px rgba(20, 20, 25, 0.18),
+      0 28px 60px -22px rgba(20, 20, 25, 0.55);
+  }
+  .card.active .face {
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.6),
+      0 4px 10px rgba(20, 20, 25, 0.22),
+      0 40px 80px -26px rgba(20, 20, 25, 0.6);
+  }
+  .face.back {
+    transform: rotateY(180deg);
+  }
+
+  /* Klick-Ziele nur auf der jeweils sichtbaren Seite */
+  .face.back {
+    pointer-events: none;
+  }
+  .card.flipped .face.front {
+    pointer-events: none;
+  }
+  .card.flipped .face.back {
+    pointer-events: auto;
+  }
+
+  .layer {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    /* abgewandte Seite blendet ihre eigenen Layer aus -> kein Durchscheinen
+       der (gespiegelten) Rückseiten-Reflexion auf der Vorderseite */
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    opacity: 0.14;
+    mix-blend-mode: overlay;
+  }
+
+  .env {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(0, 0, 0, 0) 45%,
+      rgba(0, 0, 0, 0.32) 100%
+    );
+    mix-blend-mode: soft-light;
+  }
+
+  .gloss {
+    /* EIN weicher Streifen, gleichmäßiger Abfall -> keine Doppel-/Mach-Bänder */
+    background-image: linear-gradient(
+      104deg,
+      transparent 36%,
+      rgba(255, 255, 255, 0.38) 50%,
+      transparent 64%
+    );
+    background-size: 230% 230%;
+    background-position: var(--bx) var(--by);
+    background-repeat: no-repeat;
+    mix-blend-mode: screen;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+  .card.active .gloss {
+    opacity: 0.42;
+  }
+
+  .content {
+    position: absolute;
+    inset: 0;
+    padding: clamp(1.4rem, 5%, 2.4rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transform: translateZ(26px);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+
+  .top {
+    transform: translateZ(8px);
+  }
+
+  .name {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: clamp(1.5rem, 5.2vw, 2.1rem);
+    line-height: 1.04;
+    letter-spacing: 0.01em;
+  }
+
+  .back-title {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-weight: 600;
+    font-size: clamp(1.15rem, 4vw, 1.5rem);
+    letter-spacing: 0.01em;
+  }
+
+  .rule {
+    display: block;
+    width: 46px;
+    height: 1px;
+    margin-top: 0.9rem;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0.12)
+    );
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  }
+
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .bottom-right {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4em;
+  }
+  .bottom-right .sep {
+    opacity: 0.6;
+  }
+
+  /* Hover-Feedback: kontakt / marquart.dev / fotografie werden größer */
+  .line:not(.sep) {
+    transition: transform 0.18s ease;
+    transform-origin: center bottom;
+  }
+  .line:not(.sep):hover {
+    transform: scale(1.14);
+  }
+  /* damit der „/" nicht überlagert wird: nach außen wachsen */
+  .bottom-right .line:first-child {
+    transform-origin: right bottom; /* marquart.dev wächst nach links */
+  }
+  .bottom-right .line:last-child {
+    transform-origin: left bottom; /* fotografie wächst nach rechts */
+  }
+
+  .line {
+    font-family: var(--font-sans);
+    font-size: clamp(0.62rem, 2.1vw, 0.78rem);
+    letter-spacing: 0.12em;
+    text-transform: lowercase;
+    text-decoration: none;
+  }
+
+  /* Rückseiten-Links */
+  .back-links {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.3rem, 1.4vw, 0.55rem);
+    margin: auto 0;
+  }
+  .back-link {
+    font-family: var(--font-sans);
+    font-size: clamp(0.8rem, 2.6vw, 1rem);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    width: max-content;
+    transition: transform 0.18s ease;
+  }
+  .back-link:hover {
+    transform: translateX(4px);
+  }
+  .back-return {
+    align-self: flex-start;
+    font-family: var(--font-sans);
+    font-size: clamp(0.62rem, 2.1vw, 0.76rem);
+    letter-spacing: 0.12em;
+    text-transform: lowercase;
+    transition: transform 0.18s ease;
+    transform-origin: left bottom;
+  }
+  .back-return:hover {
+    transform: scale(1.14);
+  }
+
+  /* Buttons als reiner Text (sehen aus wie Aufdruck).
+     Nur die Button-Fläche zurücksetzen – NICHT background-image,
+     sonst geht der Folien-Verlauf der Schrift verloren. */
+  button.line,
+  button.back-return {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  /* Heißfolien-/Prägeschrift */
+  .foil {
+    background-image: linear-gradient(
+      135deg,
+      #6e6e78 0%,
+      #efeff4 26%,
+      #9a9aa6 46%,
+      #d7d7df 64%,
+      #707079 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.55))
+      drop-shadow(0 -1px 0 rgba(255, 255, 255, 0.12));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .card,
+    .flipper {
+      transition: none;
+    }
+  }
+</style>

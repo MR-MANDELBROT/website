@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import BusinessCard from "../components/BusinessCard.astro";
+---
+
+<BaseLayout bare>
+  <main>
+    <BusinessCard />
+    <a class="imprint" href="/impressum/">Impressum</a>
+  </main>
+</BaseLayout>
+
+<style>
+  .imprint {
+    position: fixed;
+    bottom: 1.1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.15s ease;
+  }
+  .imprint:hover {
+    opacity: 1;
+  }
+</style>
