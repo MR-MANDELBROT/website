@@ -44,7 +44,9 @@ const path = Astro.url.pathname;
     align-items: center;
     justify-content: space-between;
     gap: 1.5rem;
-    padding-top: 1rem;
+    /* Blur reicht bis zur Bildschirmkante (hinter Dynamic Island/Uhr),
+       Navigation bleibt unter der Safe-Area */
+    padding-top: calc(1rem + env(safe-area-inset-top, 0px));
     padding-bottom: 1rem;
     flex-wrap: wrap;
   }
