@@ -20,6 +20,9 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* füllt die komplette Bildschirm-Canvas inkl. iOS-Safe-Areas
+     (hinter Statusbar/Dynamic Island & Safari-Leiste) -> keine Nähte */
+  background: var(--bg);
 }
 
 body {
