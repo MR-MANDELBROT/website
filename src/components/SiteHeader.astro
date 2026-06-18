@@ -29,6 +29,15 @@ const path = Astro.url.pathname;
   </div>
 </header>
 
+<script is:inline>
+  // Aktive Kategorie in der horizontal scrollbaren Leiste sichtbar machen
+  (function () {
+    var nav = document.querySelector(".cat-nav");
+    var on = nav && nav.querySelector("a.on");
+    if (nav && on) nav.scrollLeft = Math.max(0, on.offsetLeft - 16);
+  })();
+</script>
+
 <style>
   .site-head {
     border-bottom: 1px solid var(--line);
@@ -83,5 +92,31 @@ const path = Astro.url.pathname;
   .cat-nav a.on {
     color: var(--ink);
     border-bottom-color: var(--ink);
+  }
+
+  /* Mobil: dünne, einzeilige Leiste – Kategorien horizontal scrollbar
+     (bewährtes Tab-/Chip-Pattern), Scrollbar ausgeblendet. */
+  @media (max-width: 560px) {
+    .head-inner {
+      gap: 0.5rem;
+      padding-top: calc(0.7rem + env(safe-area-inset-top, 0px));
+      padding-bottom: 0.6rem;
+    }
+    .cat-nav {
+      flex: 1 1 100%;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      gap: 1.1rem;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-right: 0.5rem;
+    }
+    .cat-nav::-webkit-scrollbar {
+      display: none;
+    }
+    .cat-nav a {
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
   }
 </style>
