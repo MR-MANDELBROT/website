@@ -162,6 +162,15 @@ const substack = "https://substack.com/@maxmarquart";
     perspective: 1300px;
     /* Wischen neigt die Karte, statt die Seite zu scrollen */
     touch-action: none;
+  }
+
+  /* Hintergrund als fixe Vollbild-Ebene: deckt den ganzen Screen inkl.
+     iOS-Safe-Areas -> kein Farbton-Übergang an der Safari-Leiste. */
+  .scene::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
     background:
       radial-gradient(
         130% 90% at 50% 8%,
@@ -185,6 +194,7 @@ const substack = "https://substack.com/@maxmarquart";
     --by: 44%;
 
     position: relative;
+    z-index: 1; /* über der fixen Hintergrund-Ebene */
     width: min(540px, 100%); /* füllt den Padding-Bereich -> symmetrisch zentriert */
     aspect-ratio: 85 / 55; /* echte Visitenkarten-Proportion */
     border-radius: 3px; /* nahezu eckig */
