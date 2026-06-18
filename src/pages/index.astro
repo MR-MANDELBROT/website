@@ -13,7 +13,7 @@ import BusinessCard from "../components/BusinessCard.astro";
 <style>
   .imprint {
     position: fixed;
-    bottom: 1.1rem;
+    bottom: calc(1.1rem + env(safe-area-inset-bottom, 0px));
     left: 50%;
     transform: translateX(-50%);
     font-size: 0.72rem;
