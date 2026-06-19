@@ -23,9 +23,15 @@ const substack = "https://substack.com/@maxmarquart";
           </div>
 
           <div class="bottom">
-            <button type="button" class="line foil js-flip" aria-label="Kontakt anzeigen">
-              Kontakt
-            </button>
+            <span class="bottom-left">
+              <button type="button" class="line foil js-flip" data-mode="contact" aria-label="Kontakt anzeigen">
+                Kontakt
+              </button>
+              <span class="line foil sep" aria-hidden="true">/</span>
+              <button type="button" class="line foil js-flip" data-mode="dev" aria-label="Dev-Projekte anzeigen">
+                projekte
+              </button>
+            </span>
             <span class="bottom-right">
               <a
                 class="line foil"
@@ -42,8 +48,8 @@ const substack = "https://substack.com/@maxmarquart";
         <div class="layer gloss" aria-hidden="true"></div>
       </div>
 
-      <!-- RÜCKSEITE -->
-      <div class="face back">
+      <!-- RÜCKSEITE: KONTAKT -->
+      <div class="face back back-contact">
         <div class="layer grain" aria-hidden="true"></div>
         <div class="layer env" aria-hidden="true"></div>
 
@@ -80,6 +86,40 @@ const substack = "https://substack.com/@maxmarquart";
 
         <div class="layer gloss" aria-hidden="true"></div>
       </div>
+
+      <!-- RÜCKSEITE: DEV-PROJEKTE -->
+      <div class="face back back-dev">
+        <div class="layer grain" aria-hidden="true"></div>
+        <div class="layer env" aria-hidden="true"></div>
+
+        <div class="content">
+          <div class="top">
+            <p class="back-title foil">Dev-Projekte</p>
+            <span class="rule" aria-hidden="true"></span>
+          </div>
+
+          <nav class="back-links">
+            <a
+              class="back-link foil"
+              href="https://mr-mandelbrot.github.io/DockIntercept/"
+              target="_blank"
+              rel="noopener">DockIntercept</a
+            >
+            <a
+              class="back-link foil"
+              href="https://github.com/MR-MANDELBROT"
+              target="_blank"
+              rel="noopener">GitHub</a
+            >
+          </nav>
+
+          <button type="button" class="back-return foil js-flip" aria-label="Zurück zur Vorderseite">
+            ← zurück
+          </button>
+        </div>
+
+        <div class="layer gloss" aria-hidden="true"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -96,11 +136,19 @@ const substack = "https://substack.com/@maxmarquart";
       m.href = "mailto:" + addr;
     }
 
-    // Flip umschalten
+    // Flip umschalten. Buttons mit data-mode wählen die Rückseite
+    // (Kontakt / Dev-Projekte); „zurück" dreht wieder nach vorn.
     var flips = document.querySelectorAll(".js-flip");
     for (var i = 0; i < flips.length; i++) {
       flips[i].addEventListener("click", function () {
-        card.classList.toggle("flipped");
+        var mode = this.dataset.mode;
+        if (mode) {
+          card.classList.remove("mode-contact", "mode-dev");
+          card.classList.add("mode-" + mode);
+          card.classList.add("flipped");
+        } else {
+          card.classList.remove("flipped");
+        }
       });
     }
 
@@ -261,6 +309,13 @@ const substack = "https://substack.com/@maxmarquart";
   }
   .face.back {
     transform: rotateY(180deg);
+    /* Beide Rückseiten teilen sich dieselbe Drehung; standardmäßig
+       ausgeblendet, die aktive Variante wird per Modus eingeblendet. */
+    visibility: hidden;
+  }
+  .card.mode-contact .face.back-contact,
+  .card.mode-dev .face.back-dev {
+    visibility: visible;
   }
 
   /* Klick-Ziele nur auf der jeweils sichtbaren Seite */
@@ -270,7 +325,8 @@ const substack = "https://substack.com/@maxmarquart";
   .card.flipped .face.front {
     pointer-events: none;
   }
-  .card.flipped .face.back {
+  .card.flipped.mode-contact .face.back-contact,
+  .card.flipped.mode-dev .face.back-dev {
     pointer-events: auto;
   }
 
@@ -375,13 +431,22 @@ const substack = "https://substack.com/@maxmarquart";
     gap: 1rem;
     flex-wrap: wrap;
   }
+  .bottom-left,
   .bottom-right {
     display: inline-flex;
     align-items: baseline;
     gap: 0.4em;
   }
+  .bottom-left .sep,
   .bottom-right .sep {
     opacity: 0.6;
+  }
+  /* „kontakt" wächst nach rechts, „projekte" nach links – weg vom „/" */
+  .bottom-left .line:first-child {
+    transform-origin: left bottom;
+  }
+  .bottom-left .line:last-child {
+    transform-origin: right bottom;
   }
 
   /* Hover-Feedback: kontakt / marquart.dev / fotografie werden größer */
