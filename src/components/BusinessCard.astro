@@ -23,21 +23,15 @@ const substack = "https://substack.com/@maxmarquart";
           </div>
 
           <div class="bottom">
-            <span class="bottom-left">
-              <button type="button" class="line foil js-flip" data-mode="contact" aria-label="Kontakt anzeigen">
-                Kontakt
-              </button>
-              <span class="line foil sep" aria-hidden="true">/</span>
-              <button type="button" class="line foil js-flip" data-mode="dev" aria-label="Dev-Projekte anzeigen">
-                projekte
-              </button>
-            </span>
+            <button type="button" class="line foil js-flip" data-mode="contact" aria-label="Kontakt anzeigen">
+              Kontakt
+            </button>
             <span class="bottom-right">
-              <a
-                class="line foil"
-                href="https://github.com/MR-MANDELBROT"
-                target="_blank"
-                rel="noopener">marquart.dev</a
+              <button
+                type="button"
+                class="line foil js-flip"
+                data-mode="dev"
+                aria-label="Dev-Projekte anzeigen">marquart.dev</button
               >
               <span class="line foil sep" aria-hidden="true">/</span>
               <a class="line foil" href="/fotografie/">fotografie</a>
@@ -431,22 +425,13 @@ const substack = "https://substack.com/@maxmarquart";
     gap: 1rem;
     flex-wrap: wrap;
   }
-  .bottom-left,
   .bottom-right {
     display: inline-flex;
     align-items: baseline;
     gap: 0.4em;
   }
-  .bottom-left .sep,
   .bottom-right .sep {
     opacity: 0.6;
-  }
-  /* „kontakt" wächst nach rechts, „projekte" nach links – weg vom „/" */
-  .bottom-left .line:first-child {
-    transform-origin: left bottom;
-  }
-  .bottom-left .line:last-child {
-    transform-origin: right bottom;
   }
 
   /* Hover-Feedback: kontakt / marquart.dev / fotografie werden größer */
