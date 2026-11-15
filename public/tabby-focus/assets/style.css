@@ -1,0 +1,312 @@
+/* Tabby Focus. Farben aus der App (Theme.swift), hell und dunkel. */
+
+:root {
+  color-scheme: light dark;
+  --page: #F4F1EA;
+  --card: #FFFFFF;
+  --card-soft: #EAE5DA;
+  --ink: #0F1115;
+  --text: #0F1115;
+  --muted: #555A63;
+  --line: rgba(15, 17, 21, 0.10);
+  --accent: #8A6A3F;
+  --accent-text: #6E5431;
+  --button: #0F1115;
+  --on-button: #FFFFFF;
+  --sun: #F6C177;
+  --pink: #F2A7B5;
+  --hero-top: #393559;
+  --hero-bottom: #6A5891;
+  --on-hero: #FFFFFF;
+  --on-hero-muted: #E4DEF2;
+  --focus: #8A6A3F;
+  --shadow: 0 1px 2px rgba(15, 17, 21, 0.06), 0 8px 24px rgba(15, 17, 21, 0.06);
+  --radius: 22px;
+  --radius-small: 14px;
+  --wide: 1120px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --page: #0A0B0E;
+    --card: #16181D;
+    --card-soft: #1F2228;
+    --text: #ECE9E2;
+    --muted: #A9ADB5;
+    --line: rgba(255, 255, 255, 0.09);
+    --accent: #E3CFAE;
+    --accent-text: #E3CFAE;
+    --button: #E3CFAE;
+    --on-button: #0F1115;
+    --hero-top: #1A1C22;
+    --hero-bottom: #3A3360;
+    --focus: #E3CFAE;
+    --shadow: none;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a { color: var(--accent-text); text-underline-offset: 0.18em; }
+a:hover { text-decoration-thickness: 2px; }
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+h1, h2, h3 { line-height: 1.2; letter-spacing: -0.015em; margin: 0 0 0.5em; overflow-wrap: break-word; hyphens: auto; }
+h1 { font-size: clamp(2.1rem, 7vw, 3.6rem); font-weight: 800; }
+h2 { font-size: clamp(1.6rem, 4.6vw, 2.4rem); font-weight: 750; }
+h3 { font-size: 1.2rem; font-weight: 700; }
+p { margin: 0 0 1em; }
+
+.wrap { width: 100%; max-width: var(--wide); margin: 0 auto; padding: 0 20px; }
+.narrow { max-width: 760px; }
+
+.skip {
+  position: absolute; left: 12px; top: -60px; z-index: 10;
+  background: var(--button); color: var(--on-button); padding: 10px 16px; border-radius: 999px;
+}
+.skip:focus { top: 12px; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+/* Kopf */
+
+.site-header { padding: 14px 0; }
+.site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.brand { display: inline-flex; align-items: center; gap: 10px; color: var(--text); text-decoration: none; font-weight: 750; font-size: 1.1rem; }
+.brand img { width: 36px; height: 36px; border-radius: 9px; }
+.site-nav ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 16px; }
+.site-nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; padding: 6px 0; display: inline-block; }
+.site-nav a:hover, .site-nav a[aria-current="page"] { color: var(--text); }
+
+/* Abschnitte */
+
+section { padding: 56px 0; }
+.eyebrow { color: var(--accent-text); font-weight: 700; font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.6em; }
+.lead { font-size: 1.15rem; color: var(--muted); }
+.muted { color: var(--muted); }
+
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--line);
+}
+
+/* Hero */
+
+.hero { padding-top: 24px; }
+.hero-panel {
+  background: linear-gradient(180deg, var(--hero-top), var(--hero-bottom));
+  color: var(--on-hero);
+  border-radius: 28px;
+  padding: 32px 22px 0;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+}
+.hero-panel > * { min-width: 0; }
+.hero-panel .lead { color: var(--on-hero-muted); }
+.hero-panel .eyebrow { color: var(--sun); }
+.hero-for { color: var(--on-hero-muted); font-size: 0.98rem; }
+.hero-art { display: flex; justify-content: center; align-items: flex-end; gap: 6px; }
+/* Das iPhone ragt unten aus der Kachel heraus: Die Kachel schneidet es ab. */
+.hero-phone { width: min(240px, 52vw); aspect-ratio: 660 / 1040; min-height: 0; flex: none; }
+.hero-phone .device { width: 100%; }
+
+/* Die Katze sitzt auf ihrem Kissen auf dem unteren Rand der Kachel, wie in der App auf der Guthaben-Karte.
+   --p ist ein Pixel der Zeichnung: Kissen 22 mal 4, Katze 18 mal 16, sie sinkt zwei Pixel ins Kissen ein. */
+.perch { --p: 3px; position: relative; flex: none; width: calc(var(--p) * 22); height: calc(var(--p) * 18); }
+.perch .cushion { position: absolute; left: 0; bottom: 0; width: 100%; height: calc(var(--p) * 4); }
+.cat-live {
+  position: absolute; left: calc(var(--p) * 3); bottom: calc(var(--p) * 2);
+  width: calc(var(--p) * 18); height: calc(var(--p) * 16);
+  background: url(cats/katze-rot-bewegt.svg) 0 0 / calc(var(--p) * 78) 100% no-repeat;
+  animation: katze 7.7s step-end infinite;
+}
+/* Der Takt der App (AnimatedCat): alle 0,55 s wechselt der Schwanz die Stellung, jedes siebte Mal blinzelt sie.
+   Im Bild stehen vier Katzen nebeneinander, je 20 Pixel weiter: Schwanz oben, unten, blinzelnd oben, blinzelnd unten. */
+@keyframes katze {
+  0% { background-position-x: calc(var(--p) * -40); }
+  7.143% { background-position-x: calc(var(--p) * -20); }
+  14.286% { background-position-x: 0; }
+  21.429% { background-position-x: calc(var(--p) * -20); }
+  28.571% { background-position-x: 0; }
+  35.714% { background-position-x: calc(var(--p) * -20); }
+  42.857% { background-position-x: 0; }
+  50% { background-position-x: calc(var(--p) * -60); }
+  57.143% { background-position-x: 0; }
+  64.286% { background-position-x: calc(var(--p) * -20); }
+  71.429% { background-position-x: 0; }
+  78.571% { background-position-x: calc(var(--p) * -20); }
+  85.714% { background-position-x: 0; }
+  92.857% { background-position-x: calc(var(--p) * -20); }
+}
+@media (prefers-reduced-motion: reduce) { .cat-live { animation: none; } }
+
+/* Knöpfe zum Laden: schlicht, ohne Link, weil die App noch nicht erschienen ist */
+
+.stores { display: flex; flex-wrap: wrap; gap: 12px; margin: 22px 0 8px; }
+.store {
+  display: inline-flex; flex-direction: column; justify-content: center;
+  min-width: 200px; padding: 12px 22px; border-radius: 999px;
+  background: var(--button); color: var(--on-button);
+  line-height: 1.25; cursor: default; user-select: none;
+}
+.store strong { font-size: 1.02rem; }
+.store small { opacity: 0.85; font-size: 0.82rem; }
+.hero-panel .store { background: #FFFFFF; color: var(--ink); }
+.store-note { font-size: 0.9rem; color: var(--muted); }
+.hero-panel .store-note { color: var(--on-hero-muted); }
+
+/* Bilder der App. Sie stecken schon im Geräterahmen und haben einen durchsichtigen Rand (tools/bilder.sh):
+   Hier kommen nur Größe und Schatten dazu. */
+
+.device { height: auto; filter: drop-shadow(0 14px 22px rgba(15, 17, 21, 0.24)); }
+.device.phone { width: min(270px, 72vw); flex: none; }
+.device.laptop { width: 100%; }
+
+/* Bausteine */
+
+.features { display: grid; gap: 28px; }
+.feature {
+  display: grid; gap: 24px; align-items: center;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 26px 20px; overflow: hidden;
+}
+.feature-media { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+.feature ul { padding-left: 1.1em; margin: 0 0 1em; }
+.feature li { margin-bottom: 0.35em; }
+.feature li::marker { color: var(--accent); }
+.tag {
+  display: inline-block; font-size: 0.8rem; font-weight: 700; padding: 3px 10px; border-radius: 999px;
+  background: var(--card-soft); color: var(--muted); margin-bottom: 10px;
+}
+.cats-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 6px 0 16px; }
+.cats-row img { width: 54px; height: auto; image-rendering: pixelated; }
+
+/* Schritte */
+
+.steps { list-style: none; padding: 0; margin: 28px 0 0; display: grid; gap: 16px; counter-reset: step; }
+.steps li p { margin-bottom: 0; }
+.steps li { counter-increment: step; position: relative; padding-top: 64px; }
+.steps li::before {
+  content: counter(step);
+  position: absolute; left: 24px; top: 22px;
+  width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center; font-weight: 800;
+  background: var(--sun); color: var(--ink);
+}
+
+/* Plattformen */
+
+.platforms { display: grid; gap: 16px; margin-top: 28px; }
+.platform h3 { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.platform .shot { display: flex; justify-content: center; align-items: flex-end; margin-bottom: 20px; }
+.platform .shot img { width: auto; max-width: 100%; max-height: 320px; }
+.status { font-size: 0.78rem; font-weight: 700; padding: 2px 10px; border-radius: 999px; background: var(--card-soft); color: var(--muted); }
+.status.soon { background: var(--pink); color: var(--ink); }
+
+/* Datenschutz-Grundsatz */
+
+.privacy-panel { background: var(--card); border: 1px solid var(--line); border-radius: 28px; padding: 30px 22px; box-shadow: var(--shadow); }
+.principles { display: grid; gap: 14px; margin: 22px 0 0; padding: 0; list-style: none; }
+.principles li { background: var(--card-soft); border-radius: var(--radius-small); padding: 16px 18px; }
+.principles strong { display: block; margin-bottom: 2px; }
+
+/* Häufige Fragen */
+
+.faq { display: grid; gap: 10px; margin-top: 24px; }
+.faq details { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius-small); padding: 0 18px; }
+.faq summary {
+  cursor: pointer; font-weight: 650; padding: 16px 28px 16px 0; list-style: none; position: relative;
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: "+"; position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+  font-size: 1.4rem; font-weight: 400; color: var(--accent-text);
+}
+.faq details[open] summary::after { content: "\2212"; }
+.faq details > div { padding-bottom: 14px; color: var(--muted); }
+.faq details > div p:last-child { margin-bottom: 0; }
+
+/* Laden */
+
+.cta { text-align: center; }
+.cta .stores { justify-content: center; }
+.cta img.cta-cat { width: 88px; margin: 0 auto 12px; image-rendering: pixelated; }
+
+/* Unterseiten */
+
+.page-head { padding: 28px 0 8px; }
+.page-head h1 { font-size: clamp(1.9rem, 8vw, 3rem); }
+.doc { padding-top: 16px; }
+.doc h2 { font-size: 1.45rem; margin-top: 1.8em; }
+.doc h3 { margin-top: 1.4em; }
+.doc ul { padding-left: 1.2em; }
+.doc li { margin-bottom: 0.4em; }
+.draft {
+  border: 2px solid #C65846; background: rgba(198, 88, 70, 0.10); color: var(--text);
+  border-radius: var(--radius-small); padding: 16px 18px; font-weight: 700; margin: 8px 0 24px;
+}
+.placeholder-text { background: rgba(246, 193, 119, 0.35); border-radius: 4px; padding: 0 4px; font-family: ui-monospace, Menlo, monospace; font-size: 0.95em; }
+
+/* Fuß */
+
+.site-footer { padding: 40px 0 56px; color: var(--muted); font-size: 0.92rem; border-top: 1px solid var(--line); margin-top: 32px; }
+.site-footer .wrap { display: grid; gap: 14px; }
+.site-footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 18px; }
+.site-footer a { color: var(--muted); }
+.site-footer a:hover { color: var(--text); }
+
+/* Breitere Bildschirme */
+
+@media (min-width: 760px) {
+  section { padding: 80px 0; }
+  .hero-panel { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); padding: 52px 48px 0; align-items: end; }
+  .hero-panel > div:first-child { padding-bottom: 52px; align-self: center; }
+  .hero-art { gap: 10px; }
+  .perch { --p: 4px; }
+  .hero-phone { width: min(270px, 24vw); }
+  .feature { grid-template-columns: 1fr 1fr; padding: 40px; gap: 40px; }
+  .feature:nth-child(even) .feature-media { order: 2; }
+  .steps { grid-template-columns: repeat(2, 1fr); }
+  /* Oben die drei Handys, darunter iPad und Mac. Die Bilder stehen in jeder Reihe auf einer Linie. */
+  .platforms { grid-template-columns: repeat(6, 1fr); }
+  .platform { grid-column: span 2; }
+  .platform.wide { grid-column: span 3; }
+  .platform .shot { height: 320px; }
+  .principles { grid-template-columns: repeat(2, 1fr); }
+  .privacy-panel { padding: 48px; }
+}
+
+@media (min-width: 1040px) {
+  .steps { grid-template-columns: repeat(4, 1fr); }
+  .hero-phone { width: 270px; }
+}
+
+@media (min-width: 1100px) {
+  .perch { --p: 6px; }
+}
