@@ -533,17 +533,16 @@ const qrPath = qr.data
   }
 
   /* Rückseiten-Links */
+  /* Zwei Spalten, Zeile für Zeile gefüllt: So bleibt auch bei mehr Projekten genug Platz auf der Karte. */
   .back-links {
-    display: flex;
-    flex-direction: column;
-    gap: clamp(0.3rem, 1.4vw, 0.55rem);
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+    gap: clamp(0.3rem, 1.4vw, 0.55rem) clamp(1.4rem, 6vw, 3rem);
     margin: auto 0;
   }
   .back-link {
     font-family: var(--font-sans);
     font-size: clamp(0.8rem, 2.6vw, 1rem);
-    /* Etwas enger, damit sechs Projekte auch auf kleinen Handys auf die Karte passen. */
-    line-height: 1.3;
     letter-spacing: 0.04em;
     text-decoration: none;
     width: max-content;
