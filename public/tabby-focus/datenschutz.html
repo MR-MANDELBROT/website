@@ -35,7 +35,7 @@
     <div class="page-head">
       <h1>Datenschutzerklärung</h1>
       <p class="draft" role="note">Entwurf. Vor der Veröffentlichung rechtlich prüfen lassen.</p>
-      <p class="lead">Kurz gesagt: Tabby Focus hat keinen eigenen Server, kein Konto und kein Tracking. Was deine Geräte abgleichen, liegt in deiner privaten iCloud. Wir als Anbieter bekommen deine Daten aus der App nicht zu sehen.</p>
+      <p class="lead">Kurz gesagt: Tabby Focus hat kein Konto und kein Tracking. Was deine Geräte abgleichen, liegt in deiner privaten iCloud. Wir als Anbieter bekommen deine Daten aus der App nicht zu sehen. Einzige Ausnahme vom Grundsatz ohne eigenen Server ist ein kleiner Vermittler für Fokus-Freunde auf Android (Abschnitt 11), der nichts speichert.</p>
     </div>
 
     <h2 id="verantwortlich">1. Verantwortlich</h2>
@@ -43,7 +43,7 @@
 
     <h2 id="grundsatz">2. Der Grundsatz</h2>
     <ul>
-      <li>Tabby Focus betreibt keinen eigenen Server. Die App spricht mit iCloud von Apple und, nur wenn du es einrichtest, mit Diensten, die du selbst auswählst.</li>
+      <li>Tabby Focus betreibt keinen eigenen Server für deine Daten. Die App spricht mit iCloud von Apple, auf Android für Fokus-Freunde ohne Apple-ID mit einem Vermittler bei Cloudflare (Abschnitt 11), und, nur wenn du es einrichtest, mit Diensten, die du selbst auswählst.</li>
       <li>Du legst bei Tabby Focus kein Konto an. Für den Abgleich nutzt die App deine Apple-ID.</li>
       <li>Die App enthält keine Analyse-Dienste, keine Werbung und keine Werbe-Kennungen. Sie erstellt kein Profil über dich.</li>
       <li>Wir verkaufen keine Daten und geben keine weiter.</li>
@@ -87,11 +87,14 @@
     <h2 id="freunde">11. Fokus-Freunde (optional)</h2>
     <p>Fokus-Freunde sind aus, bis du sie einschaltest. Dann legt die App in der öffentlichen iCloud-Datenbank der App eine Karte für dich an. Ihr Name ist dein Freundescode.</p>
     <ul>
-      <li><strong>Lesbar für alle, die deinen Code kennen:</strong> Name und Aussehen deiner Katze, auf Wunsch dein Name, und offene Freundschaftsanfragen.</li>
+      <li><strong>Lesbar für alle, die deinen Code kennen:</strong> Name und Aussehen deiner Katze und auf Wunsch dein Name. Ohne den Code lässt sich die Karte nicht finden, auch nicht durch Auflisten der Datenbank.</li>
+      <li><strong>Freundschaftsanfragen:</strong> Eine Anfrage liegt als eigener Eintrag in der öffentlichen Datenbank, verschlüsselt für die angefragte Person. Nur sie kann lesen, wer sie anfragt. Die Anfrage verschwindet, sobald die Freundschaft steht oder du sie zurücknimmst.</li>
       <li><strong>Nur für angenommene Freunde lesbar:</strong> dein Profil mit Level, Serie, einer laufenden Session, den Zahlen der letzten 31 Tage (Fokus-Minuten, Habits, Aufgaben, freigeschaltete und verdiente Minuten), geteilten Ereignissen, gemeinsamen Zielen und, wenn du es teilst, ob die Sperre auf einem Gerät aus ist. Dieses Profil ist versiegelt, nur Freunde, deren Anfrage angenommen ist, können es öffnen.</li>
       <li><strong>Nie geteilt:</strong> welche Apps, Regeln, Habits und Aufgaben hinter den Zahlen stehen.</li>
     </ul>
-    <p>Mitteilungen zwischen Freunden (zum Beispiel ein Anstupser) liegen als kurzer Text in der öffentlichen Datenbank, bis der Absender sie nach drei Tagen wieder entfernt. Weil iCloud ihren Text zustellen muss, sind sie nicht Ende-zu-Ende verschlüsselt.</p>
+    <p>Mitteilungen zwischen Freunden (zum Beispiel ein Anstupser) liegen in der öffentlichen Datenbank, bis der Absender sie nach drei Tagen wieder entfernt. Ihr Text ist Ende-zu-Ende verschlüsselt: Offen steht nur die Art der Mitteilung mit einem allgemeinen Satz (etwa "stupst dich an."), ohne Namen. Der Empfänger öffnet den eigentlichen Text auf seinem Gerät, auf dem iPhone noch bevor die Mitteilung erscheint. An wen eine Mitteilung geht, zeigt nur ein Wert, den allein die beiden Freunde berechnen können.</p>
+    <h3>Vermittler für Android ohne Apple-ID</h3>
+    <p>Wer Tabby Focus auf Android ohne Apple-ID nutzt, kann nicht selbst in iCloud schreiben. Dann gehen die Karte, Anfragen und Mitteilungen über einen Vermittler, den wir bei Cloudflare betreiben (Cloudflare Workers, Cloudflare, Inc., USA; Grundlage für die Übermittlung sind die Standardvertragsklauseln der EU-Kommission und die Zertifizierung nach dem EU-US Data Privacy Framework). Der Vermittler legt die Einträge in der öffentlichen iCloud-Datenbank der App ab. Er bekommt dabei dieselben Inhalte, die ohnehin dort landen: die Karte und verschlüsselte Anfragen und Mitteilungen, deren Inhalt er nicht lesen kann. Jede Anfrage ist mit dem Schlüssel deiner Karte unterschrieben, damit niemand in deinem Namen schreibt. Der Vermittler speichert selbst nichts und führt kein Protokoll über Inhalte; Cloudflare verarbeitet beim Zustellen technisch deine IP-Adresse. Mit Apple-ID angemeldet und auf iPhone, iPad und Mac schreibt die App direkt in iCloud, ohne Vermittler.</p>
     <p>Was du teilst, stellst du mit drei Schaltern ein: Erfolge, Aktivität, Hinweise zur Sperre. Schaltest du Fokus-Freunde aus, wird dein Profil aus iCloud gelöscht. Rechtsgrundlage ist deine Einwilligung (Art. 6 Abs. 1 lit. a DSGVO).</p>
 
     <h2 id="automatisierung">12. Webhook und Kurzbefehle (optional)</h2>
@@ -123,7 +126,7 @@
     <p>Tabby Focus enthält keine Werbung und erhebt bei uns keine Daten, die App eignet sich deshalb für alle Altersstufen. Fokus-Freunde (Abschnitt 11) beruhen auf deiner Einwilligung: Bist du jünger als 16 Jahre, schalte sie nur mit Zustimmung deiner Eltern ein.</p>
 
     <h2 id="stand">19. Stand</h2>
-    <p>Stand: 15. November 2026. Ändert sich die App, passen wir diese Erklärung an.</p>
+    <p>Stand: 17. November 2026. Ändert sich die App, passen wir diese Erklärung an.</p>
   </main>
 
   <footer class="site-footer">
