@@ -452,13 +452,13 @@ const qrPath = qr.data
     flex-direction: column;
     justify-content: space-between;
     transform: translateZ(26px);
-    transform-style: preserve-3d;
+    /* Bewusst flach (kein preserve-3d): Sonst trifft Chrome (Android wie
+       Desktop) Knöpfe und Links in verschachtelten Elementen nicht mehr,
+       sobald sie eine eigene Transformation haben (Hover-Vergrößerung), und
+       Tipp oder Klick landen beim Elternelement. Die Karte dreht trotzdem in
+       3D, weil Karte, Flipper und Seiten preserve-3d behalten. */
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-  }
-
-  .top {
-    transform: translateZ(8px);
   }
 
   .name {
@@ -508,13 +508,17 @@ const qrPath = qr.data
     opacity: 0.6;
   }
 
-  /* Hover-Feedback: kontakt / qr-code / marquart.dev / fotografie werden größer */
+  /* Hover-Feedback: kontakt / qr-code / marquart.dev / fotografie werden größer.
+     Nur mit Maus oder Trackpad: Auf Touch-Geräten setzt erst der Tipp :hover,
+     der Zustand bliebe danach hängen. */
   .line:not(.sep) {
     transition: transform 0.18s ease;
     transform-origin: center bottom;
   }
-  .line:not(.sep):hover {
-    transform: scale(1.14);
+  @media (hover: hover) and (pointer: fine) {
+    .line:not(.sep):hover {
+      transform: scale(1.14);
+    }
   }
   /* damit der „/" nicht überlagert wird: nach außen wachsen */
   .bottom .line:first-child {
@@ -548,8 +552,10 @@ const qrPath = qr.data
     width: max-content;
     transition: transform 0.18s ease;
   }
-  .back-link:hover {
-    transform: translateX(4px);
+  @media (hover: hover) and (pointer: fine) {
+    .back-link:hover {
+      transform: translateX(4px);
+    }
   }
   .back-return {
     align-self: flex-start;
@@ -560,8 +566,10 @@ const qrPath = qr.data
     transition: transform 0.18s ease;
     transform-origin: left bottom;
   }
-  .back-return:hover {
-    transform: scale(1.14);
+  @media (hover: hover) and (pointer: fine) {
+    .back-return:hover {
+      transform: scale(1.14);
+    }
   }
 
   /* QR-Rückseite: Text links, Code rechts über die volle Höhe */
@@ -575,7 +583,6 @@ const qrPath = qr.data
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    transform-style: preserve-3d;
   }
   .qr-host {
     margin: auto 0;
